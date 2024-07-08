@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-
-export default function Register() {
+export default function UserProfileForm() {
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -91,15 +89,6 @@ export default function Register() {
               >
                 Create an account
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?{" "}
-                <Link
-                  to={"/login"}
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Login
-                </Link>
-              </p>
             </form>
           </div>
         </div>
