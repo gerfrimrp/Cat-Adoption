@@ -1,10 +1,10 @@
-import { Navbar } from "flowbite-react";
 import { Outlet } from "react-router-dom";
+import { NavigationBar } from "../components/NavigatioBar";
 
 export default function MainLayout() {
   return (
     <>
-      <Navbar />
+      <NavigationBar />
       <Outlet />
     </>
   );
