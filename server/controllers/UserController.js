@@ -43,4 +43,12 @@ module.exports = class UserController {
       next(err);
     }
   }
+
+  static async loginGoogle(req, res, next) {
+    try {
+      res.status(200).json({ access_token: token });
+    } catch (err) {
+      next(err);
+    }
+  }
 };
