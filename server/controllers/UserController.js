@@ -1,5 +1,5 @@
 const { compare } = require("bcryptjs");
-const { User } = require("../models");
+const { User, UserProfile } = require("../models");
 const { signToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client();
@@ -71,6 +71,68 @@ module.exports = class UserController {
       // const domain = payload['hd'];
       const token = signToken({ id: user.id });
       res.status(created ? 201 : 200).json({ access_token: token });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async createUserProfile(req, res, next) {
+    try {
+      const UserId = req.user.id;
+      const { fullName, address, phoneNumber } = req.body;
+
+      const userProfie = await UserProfile.create({
+        fullName,
+        address,
+        phoneNumber,
+        UserId,
+      });
+
+      res.status(201).json({ userProfie });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async createUserProfile(req, res, next) {
+    try {
+      const UserId = req.user.id;
+      const { fullName, address, phoneNumber } = req.body;
+
+      const userProfile = await UserProfile.findOne({ where: { UserId } });
+
+      if (!userProfile)
+        throw { name: "NotFound", message: "User Profile Not Found" };
+
+      const userProfie = await userProfile.create({
+        fullName,
+        address,
+        phoneNumber,
+      });
+
+      res.status(201).json({ userProfie });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async editUserProfile(req, res, next) {
+    try {
+      const UserId = req.user.id;
+      const { fullName, address, phoneNumber } = req.body;
+
+      const userProfile = await UserProfile.findOne({ where: { UserId } });
+
+      if (!userProfile)
+        throw { name: "NotFound", message: "User Profile Not Found" };
+
+      const userProfie = await userProfile.update({
+        fullName,
+        address,
+        phoneNumber,
+      });
+
+      res.status(200).json({ userProfie });
     } catch (err) {
       next(err);
     }
