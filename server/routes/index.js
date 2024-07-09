@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const PubController = require("../controllers/PubController");
 const userRouter = require("./user");
-const catsRouter = require("./user");
+const catsRouter = require("./cats");
 
 router.get("/", (req, res) => {
   res.send("Hello World!");

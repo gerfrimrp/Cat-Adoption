@@ -7,16 +7,22 @@ const client = new OAuth2Client();
 module.exports = class UserController {
   static async register(req, res, next) {
     try {
-      const { email, password, passwordRepeat } = req.body;
+      const { userName, email, password, confirmPassword } = req.body;
 
-      if (password !== passwordRepeat)
+      if (password !== confirmPassword)
         throw { name: "Validate", message: "Password doesn't match" };
 
       const user = await User.create({
+        userName,
         email,
         password,
       });
-      res.status(201).json({ email: user.email, message: "Register Success" });
+
+      res.status(201).json({
+        username: user.userName,
+        email: user.email,
+        message: "Register Success",
+      });
     } catch (err) {
       next(err);
     }
@@ -101,9 +107,6 @@ module.exports = class UserController {
 
       const userProfile = await UserProfile.findOne({ where: { UserId } });
 
-      if (!userProfile)
-        throw { name: "NotFound", message: "User Profile Not Found" };
-
       const userProfie = await userProfile.create({
         fullName,
         address,
@@ -122,9 +125,6 @@ module.exports = class UserController {
       const { fullName, address, phoneNumber } = req.body;
 
       const userProfile = await UserProfile.findOne({ where: { UserId } });
-
-      if (!userProfile)
-        throw { name: "NotFound", message: "User Profile Not Found" };
 
       const userProfie = await userProfile.update({
         fullName,

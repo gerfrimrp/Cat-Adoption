@@ -34,7 +34,6 @@ module.exports = class CatController {
     const { id } = req.params;
     try {
       const cat = await Cat.findByPk(id);
-      if (!cat) throw { name: "NotFound", message: "Cat Not found" };
 
       const updateCat = await cat.update({
         name,
@@ -44,6 +43,16 @@ module.exports = class CatController {
         description,
       });
       res.status(200).json({ updateCat });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async deleteCat(req, res, next) {
+    const { id } = req.params;
+    try {
+      await Cat.destroy({ where: { id } });
+      res.status(200).json({ message: "Delete sucess" });
     } catch (err) {
       next(err);
     }
