@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class UserProfile extends Model {
     /**
@@ -11,17 +9,48 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      UserProfile.belongsTo(models.User);
     }
   }
-  UserProfile.init({
-    userName: DataTypes.STRING,
-    fullName: DataTypes.STRING,
-    address: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING,
-    UserId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'UserProfile',
-  });
+  UserProfile.init(
+    {
+      fullName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "fullName is required" },
+          notNull: { msg: "fullName is required" },
+        },
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "address is required" },
+          notNull: { msg: "address is required" },
+        },
+      },
+      phoneNumber: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "phone number is required" },
+          notNull: { msg: "phone number is required" },
+        },
+      },
+      UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "user id is required" },
+          notNull: { msg: "user id is required" },
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: "UserProfile",
+    }
+  );
   return UserProfile;
 };

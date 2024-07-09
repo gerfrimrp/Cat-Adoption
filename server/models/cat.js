@@ -9,17 +9,68 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Cat.belongsTo(models.User);
     }
   }
   Cat.init(
     {
-      name: DataTypes.STRING,
-      breed: DataTypes.STRING,
-      age: DataTypes.STRING,
-      gender: DataTypes.STRING,
-      adoptionStatus: DataTypes.STRING,
-      description: DataTypes.STRING,
-      UserId: DataTypes.INTEGER,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "name is required" },
+          notNull: { msg: "name is required" },
+        },
+      },
+      breed: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "breed is required" },
+          notNull: { msg: "breed is required" },
+        },
+      },
+      age: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "age is required" },
+          notNull: { msg: "age is required" },
+        },
+      },
+      gender: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "gender is required" },
+          notNull: { msg: "gender is required" },
+        },
+      },
+      adoptionStatus: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "Available",
+        validate: {
+          notEmpty: { msg: "adoption status is required" },
+          notNull: { msg: "adoption status is required" },
+        },
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "description is required" },
+          notNull: { msg: "description is required" },
+        },
+      },
+      UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "user id is required" },
+          notNull: { msg: "user id is required" },
+        },
+      },
     },
     {
       sequelize,
