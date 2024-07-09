@@ -7,10 +7,10 @@ export default {
     extend: {
       colors: {
         light: {
-          first: "#E7DEC8",
-          second: "#CBAF87",
-          third: "#7E8A97",
-          fourth: "#30475E",
+          first: "#F5EFE7",
+          second: "#D8C4B6",
+          third: "#4F709C",
+          fourth: "#213555",
         },
         dark: {
           first: "#4B5563",
