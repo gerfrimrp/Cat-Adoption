@@ -1,6 +1,8 @@
 const { compare } = require("bcryptjs");
 const { User } = require("../models");
 const { signToken } = require("../helpers/jwt");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client();
 
 module.exports = class UserController {
   static async register(req, res, next) {
@@ -46,7 +48,28 @@ module.exports = class UserController {
 
   static async loginGoogle(req, res, next) {
     try {
-      res.status(200).json({ access_token: token });
+      const ticket = await client.verifyIdToken({
+        idToken: req.body.googleToken,
+        audience:
+          "995144406817-n255g16hc2asv1sc4o9a1k9ob5lu1gpj.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+      });
+      const payload = ticket.getPayload();
+      //   const userid = payload["sub"];
+
+      const user = await User.findOrCreate({
+        where: { email: payload.email },
+        hooks: false,
+        defaults: {
+          email: payload.email,
+          password: Math.random().toString(),
+        },
+      });
+      // If the request specified a Google Workspace domain:
+      // const domain = payload['hd'];
+      const token = signToken({ id: user.id });
+      res.status(created ? 201 : 200).json({ access_token: token });
     } catch (err) {
       next(err);
     }

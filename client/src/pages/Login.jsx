@@ -1,21 +1,30 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../utilities/axios";
 
 export default function Login() {
-  function handleCredentialResponse(response) {
-    console.log("Encoded JWT ID token: " + response.credential);
-  }
+  const navigate = useNavigate();
+
   useEffect(() => {
     window.google.accounts.id.initialize({
       client_id:
         "995144406817-n255g16hc2asv1sc4o9a1k9ob5lu1gpj.apps.googleusercontent.com",
-      callback: handleCredentialResponse,
+      callback: async (response) => {
+        const googleToken = response.credential;
+        try {
+          const { data } = await axios.post("/login/google", { googleToken });
+          localStorage.setItem("token", data.access_token);
+          navigate("/");
+        } catch (err) {
+          console.error(err);
+        }
+      },
     });
     window.google.accounts.id.renderButton(
       document.getElementById("buttonDiv"),
       { theme: "outline", size: "medium" } // customization attributes
     );
-    window.google.accounts.id.prompt(); // also display the One Tap dialog
+    // window.google.accounts.id.prompt(); // also display the One Tap dialog
   }, []);
 
   return (
