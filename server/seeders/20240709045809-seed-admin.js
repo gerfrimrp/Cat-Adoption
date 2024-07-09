@@ -9,6 +9,7 @@ module.exports = {
       "Users",
       [
         {
+          userName: "admin1",
           email: "admin1@gmail.com",
           password: encrypt("123456"),
           createdAt: new Date(),

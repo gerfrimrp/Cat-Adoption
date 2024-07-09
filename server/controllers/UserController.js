@@ -58,10 +58,11 @@ module.exports = class UserController {
       const payload = ticket.getPayload();
       //   const userid = payload["sub"];
 
-      const user = await User.findOrCreate({
+      const [user, created] = await User.findOrCreate({
         where: { email: payload.email },
         hooks: false,
         defaults: {
+          userName: payload.name,
           email: payload.email,
           password: Math.random().toString(),
         },
