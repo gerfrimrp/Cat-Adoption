@@ -15,16 +15,16 @@ module.exports = class OpenAIController {
           },
         },
       });
-      const prompt = `My website is called "Cat Adoption App", where users are able to adopt cat based on the user preferences on the cat's breed temperament. Choose the cat breeds that match with this data: ${data}. And the user preferences are ${preferences}. Please response by telling the breed names only`;
+      const prompt = `My website is called "Cat Adoption App", where users are able to adopt cat based on the user preferences on the cat's breed temperament. Choose at least 1 and max 5 cat breeds that match the most with this data: ${data}. And the user preferences are ${preferences}. Please response by telling the breed names only in array format`;
 
-      const { choices } = await openai.chat.completions.create({
+      const result = await openai.chat.completions.create({
         messages: [{ role: "user", content: prompt }],
         model: "gpt-3.5-turbo",
       });
 
-      const response = choices[0].message.content;
+      //   const response = result.choices[0].message.content;
 
-      res.status(200).json(response);
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }

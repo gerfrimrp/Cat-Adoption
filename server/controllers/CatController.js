@@ -49,6 +49,23 @@ module.exports = class CatController {
     }
   }
 
+  static async changeCatStatus(req, res, next) {
+    try {
+      const { id } = req.params;
+      const cat = await Cat.findByPk(id);
+
+      let adoptionStatus =
+        cat.adoptionStatus == "Available" ? "Unavailable" : "Available";
+
+      const updateCat = await cat.update({
+        adoptionStatus,
+      });
+      res.status(200).json({ updateCat });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async deleteCat(req, res, next) {
     const { id } = req.params;
     try {
