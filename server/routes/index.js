@@ -6,6 +6,8 @@ const UserController = require("../controllers/UserController");
 const authentication = require("../middlewares/authentication");
 const breedsRouter = require("./breeds");
 const OpenAIController = require("../controllers/OpenAIController");
+const upload = require("../middlewares/multer");
+const uploadMultiple = require("../middlewares/uploadMultiple");
 
 router.get("/", (req, res) => {
   res.send("Hello World!");

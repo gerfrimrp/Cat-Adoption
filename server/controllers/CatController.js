@@ -1,10 +1,10 @@
-const { Cat } = require("../models");
+const { Cat, CatImage } = require("../models");
 
 module.exports = class CatController {
   static async findUserCats(req, res, next) {
     try {
       const UserId = req.user.id;
-      const cats = await Cat.findAll({ where: { UserId } });
+      const cats = await Cat.findAll({ where: { UserId }, include: CatImage });
       if (!cats) throw { name: "NotFound", message: "Cat Not found" };
 
       res.status(200).json({ cats });
@@ -14,9 +14,13 @@ module.exports = class CatController {
   }
   static async createCat(req, res, next) {
     try {
+      // console.log(req.images);
+      const images = req.images;
       const UserId = req.user.id;
+      if (!images || images.length < 1)
+        throw { name: "Required", message: "Please upload the cat image" };
       const { name, breed, age, gender, description } = req.body;
-      const cats = await Cat.create({
+      const cat = await Cat.create({
         name,
         breed,
         age,
@@ -24,7 +28,11 @@ module.exports = class CatController {
         description,
         UserId,
       });
-      res.status(201).json({ cats });
+
+      for (let image of images) {
+        await CatImage.create({ imgUrl: image, CatId: cat.id });
+      }
+      res.status(201).json({ cat });
     } catch (err) {
       next(err);
     }
