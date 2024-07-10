@@ -1,5 +1,5 @@
 const { compare } = require("bcryptjs");
-const { User, UserProfile } = require("../models");
+const { User } = require("../models");
 const { signToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client();
