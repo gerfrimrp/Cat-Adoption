@@ -1,13 +1,14 @@
 const router = require("express").Router();
-const UserController = require("../controllers/UserController");
+const UserProfileController = require("../controllers/UserProfileController");
 
 const { authorizeProfile } = require("../middlewares/authorization");
 
-router.post("/user-profile", UserController.createUserProfile);
+router.get("/user-profile", UserProfileController.createUserProfile);
+router.post("/user-profile", UserProfileController.createUserProfile);
 router.put(
   "/user-profile/edit",
   authorizeProfile,
-  UserController.editUserProfile
+  UserProfileController.editUserProfile
 );
 
 module.exports = router;

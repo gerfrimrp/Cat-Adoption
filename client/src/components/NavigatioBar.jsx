@@ -9,25 +9,20 @@ import {
 } from "@headlessui/react";
 
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export function NavigationBar() {
-  const navigate = useNavigate();
   const navigation = [
-    { name: "Home", href: "#", current: true },
-    { name: "Cats", href: "#", current: false },
-    // { name: "", href: "#", current: false },
+    { name: "Home", href: "/", current: true },
+    { name: "Breeds", href: "/cat-breeds", current: false },
+    { name: "Your Cats", href: "/cats", current: false },
     // { name: "", href: "#", current: false },
   ];
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-  };
   return (
     <Disclosure
       as="nav"
@@ -79,7 +74,7 @@ export function NavigationBar() {
             {!localStorage.getItem("token") ? (
               <Link
                 to={"/login"}
-                className="bg-light-third rounded-md py-2 px-4 text-white hover:bg-light-fourth"
+                className="bg-light-third rounded-md py-2 px-4"
               >
                 Login
               </Link>
@@ -101,20 +96,14 @@ export function NavigationBar() {
                   className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-light-first py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                 >
                   <MenuItem>
-                    <Link
-                      to={"/user-profile"}
-                      className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third"
-                    >
+                    <button className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third">
                       Your Profile
-                    </Link>
+                    </button>
                   </MenuItem>
                   <MenuItem>
-                    <button
-                      className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third"
-                      onClick={logout}
-                    >
+                    <a className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third">
                       Sign out
-                    </button>
+                    </a>
                   </MenuItem>
                 </MenuItems>
               </Menu>
@@ -128,13 +117,13 @@ export function NavigationBar() {
           {navigation.map((item) => (
             <DisclosureButton
               key={item.name}
-              as="a"
+              as={NavLink}
               href={item.href}
               aria-current={item.current ? "page" : undefined}
               className={classNames(
                 item.current
-                  ? "bg-gray-900 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  ? "bg-light-second text-white"
+                  : "text-light-third hover:bg-light-second hover:text-white",
                 "block rounded-md px-3 py-2 text-base font-medium"
               )}
             >

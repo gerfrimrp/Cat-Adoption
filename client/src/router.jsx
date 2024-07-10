@@ -2,9 +2,10 @@ import { createBrowserRouter, redirect } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import UserProfileForm from "./pages/UserProfileForm";
+import UserProfileForm from "./components/UserProfileForm";
 import MainLayout from "./Layout/MainLayout";
-import CatRecommend from "./pages/CatRecommend";
+import Breeds from "./pages/Breeds";
+import UserProfile from "./pages/UserProfile";
 
 const isLoggedIn = () => {
   const token = localStorage.getItem("token");
@@ -24,7 +25,10 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/fill-user-profile", element: <UserProfileForm /> },
-      { path: "/cat-breeds", element: <CatRecommend /> },
+      { path: "/user-profile", element: <UserProfile /> },
+      { path: "/user-profile/edit", element: <UserProfileForm /> },
+      { path: "/cats", element: <UserProfileForm /> },
+      { path: "/cat-breeds", element: <Breeds /> },
     ],
   },
 ]);

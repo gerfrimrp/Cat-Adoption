@@ -4,6 +4,7 @@ const userRouter = require("./user");
 const catsRouter = require("./cats");
 const UserController = require("../controllers/UserController");
 const authentication = require("../middlewares/authentication");
+const CatAPI = require("../controllers/CatAPI");
 
 router.get("/", (req, res) => {
   res.send("Hello World!");
@@ -13,6 +14,7 @@ router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 router.post("/login/google", UserController.loginGoogle);
 router.get("/pub/cats", PubController.findAllCats);
+router.get("/breeds", CatAPI.getAllBreeds);
 
 router.use(authentication);
 router.use("/user", userRouter);
