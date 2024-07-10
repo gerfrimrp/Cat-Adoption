@@ -1,5 +1,5 @@
 const { sign, verify } = require("jsonwebtoken");
-const secret = "TEST_SECRET";
+const secret = process.env.SECRET_KEY;
 
 module.exports = {
   signToken: (payload) => sign(payload, secret),

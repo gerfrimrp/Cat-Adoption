@@ -31,8 +31,9 @@ module.exports = class CatController {
   }
 
   static async editCat(req, res, next) {
-    const { id } = req.params;
     try {
+      const { id } = req.params;
+      const { name, breed, age, gender, description } = req.body;
       const cat = await Cat.findByPk(id);
 
       const updateCat = await cat.update({
@@ -52,7 +53,7 @@ module.exports = class CatController {
     const { id } = req.params;
     try {
       await Cat.destroy({ where: { id } });
-      res.status(200).json({ message: "Delete sucess" });
+      res.status(200).json({ message: "Delete success" });
     } catch (err) {
       next(err);
     }

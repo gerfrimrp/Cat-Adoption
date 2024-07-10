@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import UserProfileForm from "./pages/UserProfileForm";
 import MainLayout from "./Layout/MainLayout";
+import CatRecommend from "./pages/CatRecommend";
 
 const isLoggedIn = () => {
   const token = localStorage.getItem("token");
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/fill-user-profile", element: <UserProfileForm /> },
+      { path: "/cat-breeds", element: <CatRecommend /> },
     ],
   },
 ]);

@@ -11,13 +11,12 @@ export default function Login() {
 
   useEffect(() => {
     window.google.accounts.id.initialize({
-      client_id:
-        "995144406817-n255g16hc2asv1sc4o9a1k9ob5lu1gpj.apps.googleusercontent.com",
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
       callback: async (response) => {
         const googleToken = response.credential;
         // console.log(googleToken);
         try {
-          const { data } = await axios.post("/user/login/google", {
+          const { data } = await axios.post("/login/google", {
             googleToken,
           });
           // console.log(data);
@@ -38,8 +37,9 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/user/login", user);
+      const { data } = await axios.post("/login", user);
       localStorage.setItem("token", data.access_token);
+      console.log(data);
       navigate("/");
     } catch (err) {
       console.error(err);
@@ -49,6 +49,7 @@ export default function Login() {
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
+    // console.log(user);
   };
 
   return (

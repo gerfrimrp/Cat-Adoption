@@ -3,6 +3,7 @@ const { User, UserProfile } = require("../models");
 const { signToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client();
+const clientId = process.env.GOOGLE_CLIENT_ID;
 
 module.exports = class UserController {
   static async register(req, res, next) {
@@ -32,8 +33,8 @@ module.exports = class UserController {
     try {
       const { email, password } = req.body;
 
-      if (!email) throw { name: "Validate", message: "Email is required" };
-      if (!password) throw { name: "Validate", message: "Email is required" };
+      if (!email) throw { name: "Required", message: "Email is required" };
+      if (!password) throw { name: "Required", message: "Email is required" };
 
       const user = await User.findOne({ where: { email } });
 
@@ -56,8 +57,7 @@ module.exports = class UserController {
     try {
       const ticket = await client.verifyIdToken({
         idToken: req.body.googleToken,
-        audience:
-          "995144406817-n255g16hc2asv1sc4o9a1k9ob5lu1gpj.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+        audience: clientId, // Specify the CLIENT_ID of the app that accesses the backend
         // Or, if multiple clients access the backend:
         //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
       });
@@ -84,36 +84,21 @@ module.exports = class UserController {
 
   static async createUserProfile(req, res, next) {
     try {
+      // console.log("test");
       const UserId = req.user.id;
       const { fullName, address, phoneNumber } = req.body;
+      const profile = await UserProfile.findOne({ where: { UserId } });
 
-      const userProfie = await UserProfile.create({
+      if (profile) throw { name: "Conflict" };
+
+      const userProfile = await UserProfile.create({
         fullName,
         address,
         phoneNumber,
         UserId,
       });
 
-      res.status(201).json({ userProfie });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  static async createUserProfile(req, res, next) {
-    try {
-      const UserId = req.user.id;
-      const { fullName, address, phoneNumber } = req.body;
-
-      const userProfile = await UserProfile.findOne({ where: { UserId } });
-
-      const userProfie = await userProfile.create({
-        fullName,
-        address,
-        phoneNumber,
-      });
-
-      res.status(201).json({ userProfie });
+      res.status(201).json({ userProfile });
     } catch (err) {
       next(err);
     }
@@ -126,13 +111,13 @@ module.exports = class UserController {
 
       const userProfile = await UserProfile.findOne({ where: { UserId } });
 
-      const userProfie = await userProfile.update({
+      const newUserProfile = await userProfile.update({
         fullName,
         address,
         phoneNumber,
       });
 
-      res.status(200).json({ userProfie });
+      res.status(200).json({ newUserProfile });
     } catch (err) {
       next(err);
     }
