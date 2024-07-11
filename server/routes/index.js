@@ -20,6 +20,6 @@ router.use(authentication);
 router.use("/user", userRouter);
 router.use("/cats", catsRouter);
 router.use("/breeds", breedsRouter);
-router.post("/open-ai", OpenAIController.generatePromt);
+router.post("/generate-breeds", OpenAIController.generatePromt);
 
 module.exports = router;

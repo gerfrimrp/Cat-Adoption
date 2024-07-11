@@ -1,12 +1,30 @@
 import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
 import { CardBreeds } from "../components/Card";
+import Selector from "../components/Selector";
 
 export default function Breeds() {
+  const tempraments = [
+    "Active",
+    "Affectionate",
+    "Curious",
+    "Demanding",
+    "Easy Going",
+    "Friendly",
+    "Intelligent",
+    "Lively",
+    "Loving",
+    "Outgoing",
+    "Playful",
+    "Quiet",
+    "Responsive",
+    "Social",
+    "Sweet",
+  ];
   const [catData, setCatData] = useState([]);
   // const [catImage, setCatImage] = useState("");
   const [generatedPrompt, setGeneratedPrompt] = useState("");
-  const [preferences, setPreferences] = useState(["playful", "friendly"]);
+  const [preferences, setPreferences] = useState([]);
 
   useEffect(() => {
     const fetchCatBreed = async () => {
@@ -26,23 +44,75 @@ export default function Breeds() {
     fetchCatBreed();
   }, []);
 
-  // useEffect(() => {
-  //   const generatePrompt = async () => {};
-  //   generatePrompt();
-  // });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios({
+        method: "POST",
+        url: "/generate-breeds",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        data: preferences,
+      });
+      // let result = data.choices[0].message.content;
+      // result = JSON.parse(result);
+      // console.log(result);
+      // setGeneratedPrompt(data);
+      setCatData(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleChangeInput = (event) => {
+    if (event.target.checked) {
+      setPreferences([...preferences, event.target.value]);
+      // console.log(preferences);
+    }
+  };
 
   return (
-    <div className="py-8 sm:py-10 md:py-20 lg:py-28 px-5 sm:px-10 md:px-20 lg:px-28 grid gap-5 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4">
-      {catData.map((cat, index) => (
-        <div key={index}>
-          <CardBreeds
-            id={cat.reference_image_id}
-            name={cat.name}
-            temperament={cat.temperament}
-            description={cat.description}
-          />
+    <div>
+      <h1 className="lg:pt-14 text-center font-bold text-3xl text-">
+        Select by tempraments
+      </h1>
+      <form
+        className="flex flex-col justify-center items-center gap-3 lg:m-10"
+        onSubmit={handleSubmit}
+      >
+        <div className="grid lg:grid-cols-5 gap-3 lg:w-5/6 mx-10">
+          {tempraments.map((temp, index) => {
+            return (
+              <div key={index} className="lg:col-span-1">
+                <Selector
+                  handleChangeInput={handleChangeInput}
+                  temperament={temp}
+                />
+              </div>
+            );
+          })}
         </div>
-      ))}
+
+        <button
+          type="submit"
+          className="mx-auto shadow-lg bg-light-third mt-4 py-2 px-6 rounded-lg text-white"
+        >
+          generate
+        </button>
+      </form>
+      <div className="py-8 justify-center items-center sm:py-10 md:py-20 lg:py-10 px-10 sm:px-10 md:px-16 lg:px-6 grid gap-5 sm:grid-cols-2  lg:grid-cols-3  2xl:grid-cols-5">
+        {catData.map((cat, index) => (
+          <div className="flex items-center justify-center" key={index}>
+            <CardBreeds
+              id={cat.reference_image_id}
+              name={cat.name}
+              temperament={cat.temperament}
+              description={cat.description}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

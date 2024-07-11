@@ -1,7 +1,22 @@
 import { Link } from "react-router-dom";
 import { Card } from "../components/Card";
+import { useEffect, useState } from "react";
+import axios from "../utilities/axios";
 
 export default function Home() {
+  const [cats, setCats] = useState([]);
+
+  useEffect(() => {
+    const fetchUserCats = async () => {
+      try {
+        const { data } = await axios.get("/pub/cats");
+        setCats(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchUserCats();
+  });
   return (
     <div className="m-10 lg:my-16 xl:mx-28 gap-8 sm:grid-cols-2 sm:grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
       <Card />
