@@ -4,14 +4,16 @@
     "password": "1234",
     "database": "CatAdoption_Db_dev",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "postgres",
+    "password": "1234",
+    "database": "CatAdoption_Db_test",
+    "host": "localhost",
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "username": "root",

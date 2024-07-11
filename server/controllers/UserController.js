@@ -1,7 +1,7 @@
-const { compare } = require("bcryptjs");
 const { User } = require("../models");
 const { signToken } = require("../helpers/jwt");
 const { OAuth2Client } = require("google-auth-library");
+const { match } = require("../helpers/bcryptjs");
 const client = new OAuth2Client();
 const clientId = process.env.GOOGLE_CLIENT_ID;
 
@@ -34,14 +34,16 @@ module.exports = class UserController {
       const { email, password } = req.body;
 
       if (!email) throw { name: "Required", message: "Email is required" };
-      if (!password) throw { name: "Required", message: "Email is required" };
+      if (!password)
+        throw { name: "Required", message: "Password is required" };
 
       const user = await User.findOne({ where: { email } });
 
       if (!user)
         throw { name: "Validate", message: "Email has not been registered" };
 
-      const isValidPassword = compare(password, user.password);
+      const isValidPassword = match(password, user.password);
+
       if (!isValidPassword)
         throw { name: "Validate", message: "Invalid password" };
 
@@ -57,12 +59,9 @@ module.exports = class UserController {
     try {
       const ticket = await client.verifyIdToken({
         idToken: req.body.googleToken,
-        audience: clientId, // Specify the CLIENT_ID of the app that accesses the backend
-        // Or, if multiple clients access the backend:
-        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        audience: clientId,
       });
       const payload = ticket.getPayload();
-      //   const userid = payload["sub"];
 
       const [user, created] = await User.findOrCreate({
         where: { email: payload.email },
@@ -73,8 +72,7 @@ module.exports = class UserController {
           password: Math.random().toString(),
         },
       });
-      // If the request specified a Google Workspace domain:
-      // const domain = payload['hd'];
+
       const token = signToken({ id: user.id });
       res.status(created ? 201 : 200).json({ access_token: token });
     } catch (err) {

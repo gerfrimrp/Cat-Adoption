@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Cat);
-      User.hasOne(models.UserProfile);
     }
   }
   User.init(
@@ -41,8 +40,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: { msg: "Email is required" },
-          notNull: { msg: "Email is required" },
+          notEmpty: { msg: "Password is required" },
+          notNull: { msg: "Password is required" },
           len: {
             args: [6, Infinity],
             msg: "Password must be at least 6 characters",

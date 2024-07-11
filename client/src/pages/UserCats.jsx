@@ -4,7 +4,7 @@ import { Card, UserCatCard } from "../components/Card";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function UserCats() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [cats, setCats] = useState([]);
 
   const fetchUserCats = async () => {
@@ -41,6 +41,19 @@ export default function UserCats() {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/cats/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      fetchUserCats();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
       <h1 className="font-bold pt-8 lg:pt-14 2xl:pt-20 xl:text-3xl xl:mb-5 text-2xl text-center text-light-fourth">
@@ -60,13 +73,13 @@ export default function UserCats() {
               description={cat.description}
               adoptionStatus={cat.adoptionStatus}
               handleChangeStatus={handleChangeStatus}
+              handleDelete={handleDelete}
             />
           );
         })}
 
         <Link
           to={"/create"}
-          // onClick={onClick}
           className="fixed bottom-4 right-4 md:bottom-10 md:right-10 lg:bottom-10 lg:right-16 xl:bottom-16 xl:right-20 xl:scale-125 lg:scale-110 bg-light-third hover:bg-light-fourth text-white font-bold p-2 rounded-full shadow-lg z-10"
         >
           <svg

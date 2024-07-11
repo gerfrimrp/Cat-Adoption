@@ -37,8 +37,8 @@ export function Card({ username, images, name, age, breed, description }) {
       <div className="flex flex-col items-center justify-center">
         <h1 className="font-bold text-xl text-light-fourth">{name}</h1>
         <h3 className="font-bold text-sm text-light-fourth">({age})</h3>
-        <h3 className="font-bold text-sm text-light-fourth">({breed})</h3>
-        <p className="font-bold text-md text-light-third overflow-hidden h-16">
+        <h3 className="font-bold  text-md text-light-third">{breed}</h3>
+        <p className="mt-2 font-bold text-md text-gray-500 overflow-hidden h-16">
           {/* Limit description to 4 lines with ellipsis */}
           {description}
         </p>
@@ -85,6 +85,7 @@ export function UserCatCard({
   description,
   id,
   adoptionStatus,
+  handleDelete,
 }) {
   return (
     <section className="mb-8 sm:mb-0 px-3 py-2 max-w rounded-lg shadow-xl bg-light-first sm:col-span-1">
@@ -128,7 +129,7 @@ export function UserCatCard({
             {adoptionStatus}
           </button>
           <button
-            // onClick={() => handleChangeStatus(id)}
+            onClick={() => handleDelete(id)}
             className="col-span-1 bg-red-700 h-10 shadow-md my-3 bg-red-700z py-2 rounded-lg font-semibold text-sm text-white hover:bg-red-800"
           >
             <div className="flex justify-center items-center">

@@ -32,8 +32,8 @@ const CatForm = () => {
       });
 
       const response = await axios({
-        method: id ? "PUT" : "POST",
-        url: id ? `/cats/${id}` : "/cats",
+        method: "POST",
+        url: "/cats",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
@@ -72,7 +72,7 @@ const CatForm = () => {
           onSubmit={handleSubmit}
         >
           <h1 className="font-bold text-xl text-center mb-5 text-light-third">
-            {id ? "Edit Post" : "Create Post"}
+            Create Post
           </h1>
           <div className="mb-5 flex flex-col mx-auto">
             <label
@@ -85,7 +85,6 @@ const CatForm = () => {
               type="text"
               id="name"
               name="name"
-              value={cat.name}
               onChange={handleChangeInput}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
@@ -101,7 +100,6 @@ const CatForm = () => {
               type="text"
               id="breed"
               name="breed"
-              value={cat.breed}
               onChange={handleChangeInput}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
@@ -117,7 +115,6 @@ const CatForm = () => {
               type="text"
               id="age"
               name="age"
-              value={cat.age}
               onChange={handleChangeInput}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
@@ -136,7 +133,6 @@ const CatForm = () => {
                   id="male"
                   name="gender"
                   value="male"
-                  checked={cat.gender === "male"}
                   onChange={handleChangeInput}
                   className="form-radio text-blue-500 focus:ring-blue-500 dark:text-blue-400 dark:focus:ring-blue-400"
                 />
@@ -150,7 +146,6 @@ const CatForm = () => {
                   id="female"
                   name="gender"
                   value="female"
-                  checked={cat.gender === "female"}
                   onChange={handleChangeInput}
                   className="form-radio text-pink-500 focus:ring-pink-500 dark:text-pink-400 dark:focus:ring-pink-400"
                 />
@@ -171,7 +166,6 @@ const CatForm = () => {
             <textarea
               id="description"
               name="description"
-              value={cat.description}
               onChange={handleChangeInput}
               className="h-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />

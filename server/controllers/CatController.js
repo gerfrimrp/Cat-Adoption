@@ -12,24 +12,14 @@ module.exports = class CatController {
       next(err);
     }
   }
-  static async findOneCat(req, res, next) {
-    try {
-      const { id } = req.params;
-      const cat = await Cat.findByPk(id);
-      if (!cat) throw { name: "NotFound", message: "Cat Not found" };
 
-      res.status(200).json({ cat });
-    } catch (err) {
-      next(err);
-    }
-  }
   static async createCat(req, res, next) {
     try {
       // console.log(req.images);
       const images = req.images;
       const UserId = req.user.id;
-      if (!images || images.length < 1)
-        throw { name: "Required", message: "Please upload the cat image" };
+      // if (!images || images.length < 1)
+      //   throw { name: "Required", message: "Please upload the image" };
       const { name, breed, age, gender, description } = req.body;
       const cat = await Cat.create({
         name,
@@ -46,25 +36,6 @@ module.exports = class CatController {
       res.status(201).json({ cat });
     } catch (err) {
       // console.log(err.name);
-      next(err);
-    }
-  }
-
-  static async editCat(req, res, next) {
-    try {
-      const { id } = req.params;
-      const { name, breed, age, gender, description } = req.body;
-      const cat = await Cat.findByPk(id);
-
-      const updateCat = await cat.update({
-        name,
-        breed,
-        age,
-        gender,
-        description,
-      });
-      res.status(200).json({ updateCat });
-    } catch (err) {
       next(err);
     }
   }

@@ -29,10 +29,6 @@ const errorHandler = (err, req, res, next) => {
       status = 401;
       message = "Invalid Token";
       break;
-    case "Conflict":
-      status = 409;
-      message = "You cannot create more than one user profile";
-      break;
   }
 
   res.status(status).json({ message: message });
