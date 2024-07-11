@@ -8,11 +8,12 @@ const router = require("express").Router();
 router.get("/", CatController.findUserCats);
 router.post(
   "/",
-  upload.array("images"),
+  upload.array("images", 3),
   uploadMultiple,
   CatController.createCat
 );
 // router.post("/images", upload.array("images"), uploadMultiple);
+router.get("/:id", authorizeCat, CatController.findOneCat);
 router.put("/:id", authorizeCat, CatController.editCat);
 router.patch("/:id", authorizeCat, CatController.changeCatStatus);
 router.delete("/:id", authorizeCat, CatController.deleteCat);

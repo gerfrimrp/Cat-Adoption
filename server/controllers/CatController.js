@@ -12,6 +12,17 @@ module.exports = class CatController {
       next(err);
     }
   }
+  static async findOneCat(req, res, next) {
+    try {
+      const { id } = req.params;
+      const cat = await Cat.findByPk(id);
+      if (!cat) throw { name: "NotFound", message: "Cat Not found" };
+
+      res.status(200).json({ cat });
+    } catch (err) {
+      next(err);
+    }
+  }
   static async createCat(req, res, next) {
     try {
       // console.log(req.images);
@@ -34,6 +45,7 @@ module.exports = class CatController {
       }
       res.status(201).json({ cat });
     } catch (err) {
+      // console.log(err.name);
       next(err);
     }
   }
@@ -77,6 +89,7 @@ module.exports = class CatController {
   static async deleteCat(req, res, next) {
     const { id } = req.params;
     try {
+      await CatImage.destroy({ where: { CatId: id } });
       await Cat.destroy({ where: { id } });
       res.status(200).json({ message: "Delete success" });
     } catch (err) {

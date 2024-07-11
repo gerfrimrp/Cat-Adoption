@@ -6,6 +6,7 @@ import UserProfileForm from "./components/UserProfileForm";
 import MainLayout from "./Layout/MainLayout";
 import Breeds from "./pages/Breeds";
 import UserProfile from "./pages/UserProfile";
+import CatForm from "./pages/CatForm";
 
 const isLoggedIn = () => {
   const token = localStorage.getItem("token");
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
       { path: "/user-profile", element: <UserProfile /> },
       { path: "/user-profile/edit", element: <UserProfileForm /> },
       { path: "/cats", element: <UserProfileForm /> },
+      { path: "/create", element: <CatForm /> },
       { path: "/cat-breeds", element: <Breeds /> },
     ],
   },

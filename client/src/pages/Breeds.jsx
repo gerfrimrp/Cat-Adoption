@@ -32,19 +32,17 @@ export default function Breeds() {
   // });
 
   return (
-    <div className="py-28 grid grid-cols-4 mx-10">
-      {catData.map((cat, index) => {
-        return (
-          <div key={index} className="text-black">
-            <CardBreeds
-              id={cat.reference_image_id}
-              name={cat.name}
-              temperament={cat.temperament}
-              description={cat.description}
-            />
-          </div>
-        );
-      })}
+    <div className="py-8 sm:py-10 md:py-20 lg:py-28 px-5 sm:px-10 md:px-20 lg:px-28 grid gap-5 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4">
+      {catData.map((cat, index) => (
+        <div key={index}>
+          <CardBreeds
+            id={cat.reference_image_id}
+            name={cat.name}
+            temperament={cat.temperament}
+            description={cat.description}
+          />
+        </div>
+      ))}
     </div>
   );
 }

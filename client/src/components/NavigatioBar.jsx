@@ -15,24 +15,28 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const logout = () => {
+  localStorage.removeItem("token");
+};
+
 export function NavigationBar() {
   const navigation = [
     { name: "Home", href: "/", current: true },
     { name: "Breeds", href: "/cat-breeds", current: false },
-    { name: "Your Cats", href: "/cats", current: false },
+    // { name: "Your Cats", href: "/cats", current: false },
     // { name: "", href: "#", current: false },
   ];
 
   return (
     <Disclosure
       as="nav"
-      className="bg-light-first text-light-fourth shadow-md shadow-gray-300"
+      className="bg-light-first text-light-fourth shadow-md shadow-gray-300 fixed top-0 right-0 left-0"
     >
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div className="mx-5 xl:mx-20 px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button*/}
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-light-second focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400  focus:outline-none  focus:ring-white">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
               <Bars3Icon
@@ -47,7 +51,7 @@ export function NavigationBar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              <h1 className="font-medium">Cat Adoption</h1>
+              <h1 className="font-medium text-2xl">Cat Adoption</h1>
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
@@ -58,9 +62,9 @@ export function NavigationBar() {
                     aria-current={item.current ? "page" : undefined}
                     className={classNames(
                       item.current
-                        ? " text-light-third"
+                        ? " text-light-third text-lg"
                         : "text-light-fourth  hover:text-light-third",
-                      "rounded-md px-3 py-2 text-sm font-medium"
+                      "rounded-md px-3 py-2 text-lg font-medium"
                     )}
                   >
                     {item.name}
@@ -74,7 +78,7 @@ export function NavigationBar() {
             {!localStorage.getItem("token") ? (
               <Link
                 to={"/login"}
-                className="bg-light-third rounded-md py-2 px-4"
+                className="bg-light-third rounded-md py-2 px-4 text-white text-sm shadow-md"
               >
                 Login
               </Link>
@@ -97,11 +101,19 @@ export function NavigationBar() {
                 >
                   <MenuItem>
                     <button className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third">
+                      Your Cats
+                    </button>
+                  </MenuItem>
+                  <MenuItem>
+                    <button className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third">
                       Your Profile
                     </button>
                   </MenuItem>
                   <MenuItem>
-                    <a className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third">
+                    <a
+                      className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third"
+                      onClick={logout}
+                    >
                       Sign out
                     </a>
                   </MenuItem>
