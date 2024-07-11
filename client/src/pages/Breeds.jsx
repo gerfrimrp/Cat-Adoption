@@ -21,9 +21,8 @@ export default function Breeds() {
     "Social",
     "Sweet",
   ];
+
   const [catData, setCatData] = useState([]);
-  // const [catImage, setCatImage] = useState("");
-  const [generatedPrompt, setGeneratedPrompt] = useState("");
   const [preferences, setPreferences] = useState([]);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function Breeds() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        // console.log(data);
+
         setCatData(data);
       } catch (err) {
         console.error(err);
@@ -55,10 +54,7 @@ export default function Breeds() {
         },
         data: preferences,
       });
-      // let result = data.choices[0].message.content;
-      // result = JSON.parse(result);
-      // console.log(result);
-      // setGeneratedPrompt(data);
+
       setCatData(data);
     } catch (err) {
       console.error(err);
@@ -67,8 +63,11 @@ export default function Breeds() {
 
   const handleChangeInput = (event) => {
     if (event.target.checked) {
-      setPreferences([...preferences, event.target.value]);
-      // console.log(preferences);
+      if (preferences.length < 3) {
+        setPreferences([...preferences, event.target.value]);
+      }
+    } else {
+      setPreferences(preferences.filter((pref) => event.target.value !== pref));
     }
   };
 
@@ -88,6 +87,7 @@ export default function Breeds() {
                 <Selector
                   handleChangeInput={handleChangeInput}
                   temperament={temp}
+                  preferences={preferences}
                 />
               </div>
             );

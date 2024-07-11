@@ -6,6 +6,7 @@ import MainLayout from "./Layout/MainLayout";
 import Breeds from "./pages/Breeds";
 import CatForm from "./pages/CatForm";
 import UserCats from "./pages/UserCats";
+import BreedDetail from "./pages/BreeedDetail";
 
 const isLoggedIn = () => {
   const token = localStorage.getItem("token");
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "/cats", element: <UserCats /> },
       { path: "/create", element: <CatForm /> },
       { path: "/cat-breeds", element: <Breeds /> },
+      { path: "/cat-breeds/:id", element: <BreedDetail /> },
     ],
   },
 ]);
