@@ -64,6 +64,14 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: "description is required" },
         },
       },
+      contact: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "contact is required" },
+          notNull: { msg: "contact is required" },
+        },
+      },
       UserId: {
         type: DataTypes.INTEGER,
         allowNull: false,

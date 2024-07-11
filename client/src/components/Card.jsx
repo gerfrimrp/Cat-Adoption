@@ -2,7 +2,15 @@ import { Link } from "react-router-dom";
 import TrashDelete from "./TrashDelete";
 // import { Carousel } from "flowbite-react";
 
-export function Card({ username, images, name, age, breed, description }) {
+export function Card({
+  username,
+  images,
+  name,
+  age,
+  breed,
+  description,
+  contact,
+}) {
   return (
     <section className="mb-8 sm:mb-0 px-3 py-2 max-w rounded-lg shadow-xl bg-light-first sm:col-span-1">
       <div className="my-2 flex justify-between">
@@ -38,15 +46,13 @@ export function Card({ username, images, name, age, breed, description }) {
         <h1 className="font-bold text-xl text-light-fourth">{name}</h1>
         <h3 className="font-bold text-sm text-light-fourth">({age})</h3>
         <h3 className="font-bold  text-md text-light-third">{breed}</h3>
-        <p className="mt-2 font-bold text-md text-gray-500 overflow-hidden h-16">
-          {/* Limit description to 4 lines with ellipsis */}
+        <p className="mt-2 font-bold text-xs text-gray-500 overflow-hidden h-16">
           {description}
         </p>
-
-        <button className="shadow-md my-3 bg-light-third py-2 w-full rounded-lg font-semibold text-sm text-white hover:bg-light-fourth">
-          Looking for Adopter
-        </button>
-      </div>
+      </div>{" "}
+      <p className="my-4 font-bold text-sm text-gray-500 overflow-hidden text-left">
+        contact: {contact}
+      </p>
     </section>
   );
 }

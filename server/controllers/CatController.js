@@ -18,15 +18,16 @@ module.exports = class CatController {
       // console.log(req.images);
       const images = req.images;
       const UserId = req.user.id;
-      // if (!images || images.length < 1)
-      //   throw { name: "Required", message: "Please upload the image" };
-      const { name, breed, age, gender, description } = req.body;
+      if (!images || images.length < 1)
+        throw { name: "Required", message: "Please upload the image" };
+      const { name, breed, age, gender, description, contact } = req.body;
       const cat = await Cat.create({
         name,
         breed,
         age,
         gender,
         description,
+        contact,
         UserId,
       });
 
@@ -35,7 +36,6 @@ module.exports = class CatController {
       }
       res.status(201).json({ cat });
     } catch (err) {
-      // console.log(err.name);
       next(err);
     }
   }

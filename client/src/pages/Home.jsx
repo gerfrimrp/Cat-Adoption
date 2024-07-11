@@ -31,6 +31,7 @@ export default function Home() {
             age={cat.age}
             breed={cat.breed}
             description={cat.description}
+            contact={cat.contact}
           />
         );
       })}

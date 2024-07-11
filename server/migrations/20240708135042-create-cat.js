@@ -34,6 +34,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      contact: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         allowNull: false,

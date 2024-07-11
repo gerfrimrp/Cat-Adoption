@@ -26,3 +26,4 @@ dist-ssr
 #any
 client_secret.json
 .env
+notes.txt

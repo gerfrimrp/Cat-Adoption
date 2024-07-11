@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../utilities/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const CatForm = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [cat, setCat] = useState({
@@ -14,6 +13,7 @@ const CatForm = () => {
     age: "",
     gender: "",
     description: "",
+    contact: "",
   });
 
   const handleSubmit = async (event) => {
@@ -26,6 +26,7 @@ const CatForm = () => {
       formData.append("age", cat.age);
       formData.append("gender", cat.gender);
       formData.append("description", cat.description);
+      formData.append("contact", cat.contact);
 
       images.forEach((image) => {
         formData.append("images", image);
@@ -168,6 +169,19 @@ const CatForm = () => {
               name="description"
               onChange={handleChangeInput}
               className="h-48 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+            <label
+              htmlFor="contact"
+              className="block  mt-5 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Contact :
+            </label>
+            <input
+              type="text"
+              id="contact"
+              name="contact"
+              onChange={handleChangeInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
           <div className="flex flex-col justify-center w-full">
