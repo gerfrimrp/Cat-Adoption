@@ -73,14 +73,14 @@ export default function Breeds() {
 
   return (
     <div>
-      <h1 className="lg:pt-14 text-center font-bold text-3xl text-">
+      <h1 className="lg:pt-14 pt-10 text-center font-bold text-3xl text-">
         Select by tempraments
       </h1>
       <form
         className="flex flex-col justify-center items-center gap-3 lg:m-10"
         onSubmit={handleSubmit}
       >
-        <div className="grid lg:grid-cols-5 gap-3 lg:w-5/6 mx-10">
+        <div className="grid rid-cols-1 sm:grid-cols-2 w-4/5 md:grid-cols-3 mt-5 md:w-2/3 lg:grid-cols-5 gap-3 lg:w-5/6 mx-10">
           {tempraments.map((temp, index) => {
             return (
               <div key={index} className="lg:col-span-1">

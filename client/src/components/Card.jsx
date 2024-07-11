@@ -2,18 +2,18 @@ import { Link } from "react-router-dom";
 import TrashDelete from "./TrashDelete";
 // import { Carousel } from "flowbite-react";
 
-export function Card() {
+export function Card({ username, images, name, age, breed, description }) {
   return (
     <section className="mb-8 sm:mb-0 px-3 py-2 max-w rounded-lg shadow-xl bg-light-first sm:col-span-1">
-      <div className="my-2 flex justify-between ">
-        <h1 className="text-light-fourth font-bold text-md">Username</h1>
+      <div className="my-2 flex justify-between">
+        <h1 className="text-light-fourth font-bold text-md">{username}</h1>
       </div>
       <hr className="border-t-4 border-light-third" />
       <div className="grid grid-cols-3 gap-1 my-3">
         <div className="col-span-2">
           <div className="grid grid-rows-2 gap-1 w-full h-40">
             <img
-              src="https://images.unsplash.com/photo-1720247522784-ba24b938534d?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={images[0].imgUrl}
               alt="..."
               className="w-full h-full object-cover row-span-2"
             />
@@ -22,12 +22,12 @@ export function Card() {
         <div className="col-span-1">
           <div className="grid grid-rows-2 gap-1 w-full h-40">
             <img
-              src="https://images.unsplash.com/photo-1719056307923-a11de279d25f?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={images[1].imgUrl}
               alt="..."
               className="w-full h-full object-cover row-span-1"
             />
             <img
-              src="https://images.unsplash.com/photo-1719056307923-a11de279d25f?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={images[2].imgUrl}
               alt="..."
               className="w-full h-full object-cover row-span-1"
             />
@@ -35,9 +35,13 @@ export function Card() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
-        <h1 className="font-bold text-xl text-light-fourth">cat name</h1>
-        <h3 className="font-bold text-sm text-light-fourth">(age)</h3>
-        <p className="font-bold text-md text-light-third">breed</p>
+        <h1 className="font-bold text-xl text-light-fourth">{name}</h1>
+        <h3 className="font-bold text-sm text-light-fourth">({age})</h3>
+        <h3 className="font-bold text-sm text-light-fourth">({breed})</h3>
+        <p className="font-bold text-md text-light-third overflow-hidden h-16">
+          {/* Limit description to 4 lines with ellipsis */}
+          {description}
+        </p>
 
         <button className="shadow-md my-3 bg-light-third py-2 w-full rounded-lg font-semibold text-sm text-white hover:bg-light-fourth">
           Looking for Adopter
@@ -72,17 +76,26 @@ export function CardBreeds({ id, name, temperament, description }) {
   );
 }
 
-export function UserCatCard({ handleChangeStatus }) {
+export function UserCatCard({
+  handleChangeStatus,
+  images,
+  name,
+  age,
+  breed,
+  description,
+  id,
+  adoptionStatus,
+}) {
   return (
     <section className="mb-8 sm:mb-0 px-3 py-2 max-w rounded-lg shadow-xl bg-light-first sm:col-span-1">
       <h1 className="mt-2 text-center font-bold text-xl text-light-fourth">
-        cat name
+        {name}
       </h1>
       <div className="grid grid-cols-3 gap-1 my-3">
         <div className="col-span-2">
           <div className="grid grid-rows-2 gap-1 w-full h-40">
             <img
-              src="https://images.unsplash.com/photo-1720247522784-ba24b938534d?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={images[0]?.imgUrl}
               alt="..."
               className="w-full h-full object-cover row-span-2"
             />
@@ -91,12 +104,12 @@ export function UserCatCard({ handleChangeStatus }) {
         <div className="col-span-1">
           <div className="grid grid-rows-2 gap-1 w-full h-40">
             <img
-              src="https://images.unsplash.com/photo-1719056307923-a11de279d25f?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={images[1]?.imgUrl}
               alt="..."
               className="w-full h-full object-cover row-span-1"
             />
             <img
-              src="https://images.unsplash.com/photo-1719056307923-a11de279d25f?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={images[2]?.imgUrl}
               alt="..."
               className="w-full h-full object-cover row-span-1"
             />
@@ -104,20 +117,15 @@ export function UserCatCard({ handleChangeStatus }) {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
-        <h3 className="font-bold text-sm text-light-fourth">(age)</h3>
-        <p className="font-bold text-md text-light-third">breed</p>
-        <p className="font-medium text-sm text-light-fourth">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit
-          quidem laboriosam accusantium perspiciatis voluptatibus est mollitia
-          quae officiis magni, aut architecto molestiae excepturi eum numquam
-          consequuntur illum, tenetur autem quod.
-        </p>
+        <h3 className="font-bold text-sm text-light-fourth">({age})</h3>
+        <p className="font-bold text-md text-light-third">{breed}</p>
+        <p className="font-medium text-sm text-light-fourth">{description}</p>
         <div className="grid grid-cols-4 gap-4 w-full">
           <button
-            // onClick={() => handleChangeStatus(id)}
+            onClick={() => handleChangeStatus(id)}
             className="col-span-3 h-10 shadow-md my-3 bg-light-third py-2 rounded-lg font-semibold text-sm text-white hover:bg-light-fourth"
           >
-            Adoption Status
+            {adoptionStatus}
           </button>
           <button
             // onClick={() => handleChangeStatus(id)}

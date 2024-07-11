@@ -67,7 +67,10 @@ const CatForm = () => {
           <LoadingSpinner />
         </div>
       ) : (
-        <form className="m-8 gap-5" onSubmit={handleSubmit}>
+        <form
+          className="m-8 gap-5 lg:mt-16 lg:mx-20 xl:mx-80"
+          onSubmit={handleSubmit}
+        >
           <h1 className="font-bold text-xl text-center mb-5 text-light-third">
             {id ? "Edit Post" : "Create Post"}
           </h1>
@@ -120,21 +123,44 @@ const CatForm = () => {
             />
           </div>
           <div className="mb-5 flex flex-col mx-auto">
-            <label
+            <legend
               htmlFor="gender"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Gender :
-            </label>
-            <input
-              type="text"
-              id="gender"
-              name="gender"
-              value={cat.gender}
-              onChange={handleChangeInput}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
+              Gender:
+            </legend>
+            <div className="flex gap-5 xl:flex-col ">
+              <label className="inline-flex items-center mr-4">
+                <input
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  value="male"
+                  checked={cat.gender === "male"}
+                  onChange={handleChangeInput}
+                  className="form-radio text-blue-500 focus:ring-blue-500 dark:text-blue-400 dark:focus:ring-blue-400"
+                />
+                <span className="ml-2 text-sm text-gray-900 dark:text-white">
+                  Male
+                </span>
+              </label>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  value="female"
+                  checked={cat.gender === "female"}
+                  onChange={handleChangeInput}
+                  className="form-radio text-pink-500 focus:ring-pink-500 dark:text-pink-400 dark:focus:ring-pink-400"
+                />
+                <span className="ml-2 text-sm text-gray-900 dark:text-white">
+                  Female
+                </span>
+              </label>
+            </div>
           </div>
+
           <div className="mb-5 flex flex-col mx-auto">
             <label
               htmlFor="description"

@@ -10,20 +10,31 @@ export default function Home() {
     const fetchUserCats = async () => {
       try {
         const { data } = await axios.get("/pub/cats");
-        setCats(data);
+        console.log(data.cats);
+        setCats(data.cats);
       } catch (err) {
         console.error(err);
       }
     };
     fetchUserCats();
-  });
+  }, []);
+
   return (
     <div className="m-10 lg:my-16 xl:mx-28 gap-8 sm:grid-cols-2 sm:grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+      {cats.map((cat, index) => {
+        return (
+          <Card
+            key={index}
+            username={cat.User?.userName}
+            images={cat.CatImages}
+            name={cat.name}
+            age={cat.age}
+            breed={cat.breed}
+            description={cat.description}
+          />
+        );
+      })}
+
       <Link
         to={"/create"}
         // onClick={onClick}

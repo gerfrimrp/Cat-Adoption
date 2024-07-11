@@ -1,34 +1,41 @@
 import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
 import { Card, UserCatCard } from "../components/Card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function UserCats() {
+  const navigate = useNavigate();
   const [cats, setCats] = useState([]);
 
-  useEffect(() => {
-    const fetchUserCats = async () => {
-      try {
-        const { data } = await axios.get("/cats", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        setCats(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchUserCats();
-  });
-
-  const handleChangeStatus = async (id) => {
+  const fetchUserCats = async () => {
     try {
-      await axios.patch(`/cats/${id}`, {
+      const { data } = await axios.get("/cats", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+      // console.log(data.cats);
+      setCats(data.cats);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    fetchUserCats();
+  }, []);
+
+  const handleChangeStatus = async (id) => {
+    try {
+      await axios.patch(
+        `/cats/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      fetchUserCats();
     } catch (err) {
       console.error(err);
     }
@@ -41,11 +48,21 @@ export default function UserCats() {
       </h1>
       <hr className="border-t-4 border-light-third mx-5 mt-3 md:mx-10 xl:mx-28" />
       <div className="m-10 lg:my-16 xl:mx-28 gap-8 sm:grid-cols-2 sm:grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
-        <UserCatCard handleChangeStatus={handleChangeStatus} />
-        <UserCatCard handleChangeStatus={handleChangeStatus} />
-        <UserCatCard handleChangeStatus={handleChangeStatus} />
-        <UserCatCard handleChangeStatus={handleChangeStatus} />
-        <UserCatCard handleChangeStatus={handleChangeStatus} />
+        {cats.map((cat, index) => {
+          return (
+            <UserCatCard
+              key={index}
+              id={cat.id}
+              images={cat.CatImages}
+              name={cat.name}
+              age={cat.age}
+              breed={cat.breed}
+              description={cat.description}
+              adoptionStatus={cat.adoptionStatus}
+              handleChangeStatus={handleChangeStatus}
+            />
+          );
+        })}
 
         <Link
           to={"/create"}
