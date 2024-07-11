@@ -9,7 +9,7 @@ let access_token = "";
 
 const user_test_1 = {
   userName: "test",
-  email: "test1@gmail.com",
+  email: "test2@gmail.com",
   password: "123456",
 };
 
@@ -39,6 +39,7 @@ afterAll(async () => {
     restartIdentity: true,
     cascade: true,
   });
+  await sequelize.close();
 });
 
 describe("Cat Controller Tests", () => {
@@ -68,23 +69,6 @@ describe("Cat Controller Tests", () => {
     console.log(body);
     expect(status).toBe(201);
     expect(body.cat).toBeDefined();
-  });
-});
-
-describe("findOneCat Test", () => {
-  let catId;
-
-  beforeAll(async () => {
-    const cat = await Cat.create({
-      name: "Test Cat",
-      breed: "Siamese",
-      age: "2 years old",
-      gender: "female",
-      description: "Test cat description",
-      UserId: 1,
-    });
-
-    catId = cat.id;
   });
 });
 

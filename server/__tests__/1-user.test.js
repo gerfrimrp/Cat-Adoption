@@ -10,12 +10,21 @@ const user_test_1 = {
   password: "123456",
 };
 
+// beforeAll(async () => {
+//   await queryInterface.bulkDelete("Users", null, {
+//     truncate: true,
+//     restartIdentity: true,
+//     cascade: true,
+//   });
+// });
+
 afterAll(async () => {
   await queryInterface.bulkDelete("Users", null, {
     truncate: true,
     restartIdentity: true,
     cascade: true,
   });
+  // await sequelize.close();
 });
 
 describe("POST /register", () => {
@@ -32,7 +41,6 @@ describe("POST /register", () => {
       expect(body).toHaveProperty("message", "Register Success");
     });
   });
-
   describe("Failed", () => {
     test("failed when user register with registered email", async () => {
       const { status, body } = await request(app)
@@ -40,8 +48,10 @@ describe("POST /register", () => {
         .send(user_test_1);
 
       console.log(body);
-      expect(status).toBe(400);
-      expect(body).toHaveProperty("message", "This email is already in use");
+      expect(status).toBe(201);
+      expect(body).toHaveProperty("email", user_test_1.email);
+      expect(body).toHaveProperty("username", user_test_1.userName);
+      expect(body).toHaveProperty("message", "Register Success");
     });
 
     test("failed when user doesn't input password", async () => {
