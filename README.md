@@ -13,14 +13,6 @@ List of available endpoints:
 
 Request:
 
-- headers:
-
-```json
-{
-    "Authorization": "Bearer <access_token>"
-}
-```
-
 - body:
 
 ```json
