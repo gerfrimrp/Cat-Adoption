@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../utilities/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const CatForm = () => {
   const navigate = useNavigate();
@@ -47,15 +47,9 @@ const CatForm = () => {
       navigate("/");
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data.message || err.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      Swal.fire({
+        icon: "error",
+        title: err.response?.data.message || err.message,
       });
     } finally {
       setLoading(false);

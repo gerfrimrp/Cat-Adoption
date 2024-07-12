@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
 import { UserCatCard } from "../components/Card";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function UserCats() {
   const [cats, setCats] = useState([]);
@@ -18,15 +18,9 @@ export default function UserCats() {
       setCats(data.cats);
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data.message || err.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      Swal.fire({
+        icon: "error",
+        title: err.response?.data.message || err.message,
       });
     }
   };
@@ -48,38 +42,37 @@ export default function UserCats() {
       fetchUserCats();
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data.message || err.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      Swal.fire({
+        icon: "error",
+        title: err.response?.data.message || err.message,
       });
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/cats/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You will not be able to recover this post!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc2626",
+        cancelButtonColor: "#4682A9",
+        confirmButtonText: "Yes, delete it!",
       });
-      fetchUserCats();
+      if (result.isConfirmed) {
+        await axios.delete(`/cats/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        fetchUserCats();
+      }
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data.message || err.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      Swal.fire({
+        icon: "error",
+        title: err.response?.data.message || err.message,
       });
     }
   };

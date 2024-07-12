@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import axios from "../utilities/axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setCats, setLoading } from "../features/cats/catSlice";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -19,15 +19,9 @@ export default function Home() {
         dispatch(setLoading(false));
       } catch (err) {
         console.error(err);
-        toast.error(err.response?.data.message || err.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        Swal.fire({
+          icon: "error",
+          title: err.response?.data.message || err.message,
         });
         dispatch(setLoading(false));
       }

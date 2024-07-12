@@ -6,29 +6,39 @@ import MainLayout from "./Layout/MainLayout";
 import Breeds from "./pages/Breeds";
 import CatForm from "./pages/CatForm";
 import UserCats from "./pages/UserCats";
-import BreedDetail from "./pages/BreeedDetail";
+import BreedDetail from "./pages/BreedDetail";
 
 const isLoggedIn = () => {
   const token = localStorage.getItem("token");
-  token ? redirect("/") : null;
+  if (token) {
+    return redirect("/");
+  }
+  return null;
 };
 
 const isNotLoggedIn = () => {
   const token = localStorage.getItem("token");
-  !token ? redirect("/login") : null;
+  if (!token) {
+    return redirect("/login");
+  }
+  return null;
 };
 
 export const router = createBrowserRouter([
-  { path: "/register", element: <Register /> },
-  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register />, loader: isLoggedIn },
+  { path: "/login", element: <Login />, loader: isLoggedIn },
   {
     element: <MainLayout />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/cats", element: <UserCats /> },
-      { path: "/create", element: <CatForm /> },
-      { path: "/cat-breeds", element: <Breeds /> },
-      { path: "/cat-breeds/:id", element: <BreedDetail /> },
+      { path: "/cats", element: <UserCats />, loader: isNotLoggedIn },
+      { path: "/create", element: <CatForm />, loader: isNotLoggedIn },
+      { path: "/cat-breeds", element: <Breeds />, loader: isNotLoggedIn },
+      {
+        path: "/cat-breeds/:id",
+        element: <BreedDetail />,
+        loader: isNotLoggedIn,
+      },
     ],
   },
 ]);

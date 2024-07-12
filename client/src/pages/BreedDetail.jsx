@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "../utilities/axios";
 import Bar from "../components/Bar";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function BreedDetail() {
   const { id } = useParams();
@@ -22,15 +22,9 @@ export default function BreedDetail() {
         setCat(data.breeds[0]);
       } catch (err) {
         console.error(err);
-        toast.error(err.response?.data.message || err.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        Swal.fire({
+          icon: "error",
+          title: err.response?.data.message || err.message,
         });
       }
     };

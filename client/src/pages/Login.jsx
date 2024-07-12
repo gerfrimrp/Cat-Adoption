@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../utilities/axios";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -25,15 +25,9 @@ export default function Login() {
           navigate("/");
         } catch (err) {
           console.error(err);
-          toast.error(err.response?.data.message || err.message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+          Swal.fire({
+            icon: "error",
+            title: err.response?.data.message || err.message,
           });
         }
       },
@@ -54,15 +48,9 @@ export default function Login() {
       navigate("/");
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data.message || err.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      Swal.fire({
+        icon: "error",
+        title: err.response?.data.message || err.message,
       });
     }
   };

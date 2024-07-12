@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
 import { CardBreeds } from "../components/Card";
 import Selector from "../components/Selector";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function Breeds() {
   const tempraments = [
@@ -38,15 +38,9 @@ export default function Breeds() {
         setCatData(data);
       } catch (err) {
         console.error(err);
-        toast.error(err.response?.data.message || err.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        Swal.fire({
+          icon: "error",
+          title: err.response?.data.message || err.message,
         });
       }
     };
@@ -69,15 +63,9 @@ export default function Breeds() {
       setCatData(data);
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data.message || err.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      Swal.fire({
+        icon: "error",
+        title: err.response?.data.message || err.message,
       });
     }
   };
