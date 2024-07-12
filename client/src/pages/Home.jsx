@@ -1,23 +1,39 @@
 import { Link } from "react-router-dom";
 import { Card } from "../components/Card";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "../utilities/axios";
+import { useSelector, useDispatch } from "react-redux";
+import { setCats, setLoading } from "../features/cats/catSlice";
+import { toast } from "react-toastify";
 
 export default function Home() {
-  const [cats, setCats] = useState([]);
+  const dispatch = useDispatch();
+  const cats = useSelector((state) => state.cats.cats);
 
   useEffect(() => {
     const fetchUserCats = async () => {
       try {
+        dispatch(setLoading(true));
         const { data } = await axios.get("/pub/cats");
-        console.log(data.cats);
-        setCats(data.cats);
+        dispatch(setCats(data.cats));
+        dispatch(setLoading(false));
       } catch (err) {
         console.error(err);
+        toast.error(err.response?.data.message || err.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        dispatch(setLoading(false));
       }
     };
     fetchUserCats();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="m-10 lg:my-16 xl:mx-28 gap-8 sm:grid-cols-2 sm:grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">

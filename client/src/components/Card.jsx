@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import TrashDelete from "./TrashDelete";
-// import { Carousel } from "flowbite-react";
 
 export function Card({
   username,

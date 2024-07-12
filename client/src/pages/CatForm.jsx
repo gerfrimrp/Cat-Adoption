@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../utilities/axios";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { toast } from "react-toastify";
 
 const CatForm = () => {
   const navigate = useNavigate();
@@ -42,10 +43,20 @@ const CatForm = () => {
         data: formData,
       });
 
-      console.log("Upload successful:", response.data);
+      console.log(response.data);
       navigate("/");
     } catch (err) {
-      console.error("Error uploading images:", err);
+      console.error(err);
+      toast.error(err.response?.data.message || err.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } finally {
       setLoading(false);
     }

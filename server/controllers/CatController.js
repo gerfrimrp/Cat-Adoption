@@ -15,7 +15,6 @@ module.exports = class CatController {
 
   static async createCat(req, res, next) {
     try {
-      // console.log(req.images);
       const images = req.images;
       const UserId = req.user.id;
       if (!images || images.length < 1)

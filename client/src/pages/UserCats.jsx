@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "../utilities/axios";
-import { Card, UserCatCard } from "../components/Card";
-import { Link, useNavigate } from "react-router-dom";
+import { UserCatCard } from "../components/Card";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function UserCats() {
-  // const navigate = useNavigate();
   const [cats, setCats] = useState([]);
 
   const fetchUserCats = async () => {
@@ -18,6 +18,16 @@ export default function UserCats() {
       setCats(data.cats);
     } catch (err) {
       console.error(err);
+      toast.error(err.response?.data.message || err.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
   useEffect(() => {
@@ -38,6 +48,16 @@ export default function UserCats() {
       fetchUserCats();
     } catch (err) {
       console.error(err);
+      toast.error(err.response?.data.message || err.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -51,6 +71,16 @@ export default function UserCats() {
       fetchUserCats();
     } catch (err) {
       console.error(err);
+      toast.error(err.response?.data.message || err.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

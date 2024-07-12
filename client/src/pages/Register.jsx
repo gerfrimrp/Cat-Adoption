@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../utilities/axios";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -26,6 +27,16 @@ export default function Register() {
           navigate("/");
         } catch (err) {
           console.error(err);
+          toast.error(err.response?.data.message || err.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         }
       },
     });
@@ -44,6 +55,16 @@ export default function Register() {
       navigate("/");
     } catch (err) {
       console.error(err);
+      toast.error(err.response?.data.message || err.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

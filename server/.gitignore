@@ -1,3 +1,4 @@
 node_modules
 schema.drawio
 .env
+ecosystem.config.js
