@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../utilities/axios";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 export default function Register() {
@@ -37,17 +36,17 @@ export default function Register() {
     });
     window.google.accounts.id.renderButton(
       document.getElementById("buttonDiv"),
-      { theme: "outline", size: "medium" } // customization attributes
+      { theme: "outline", size: "medium" }
     );
     // window.google.accounts.id.prompt(); // also display the One Tap dialog
-  }, []);
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post("/register", newUser);
       console.log(data);
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       console.error(err);
       Swal.fire({

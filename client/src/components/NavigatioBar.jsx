@@ -17,10 +17,8 @@ function classNames(...classes) {
 
 export function NavigationBar() {
   const navigation = [
-    { name: "Home", href: "/", current: true },
-    { name: "Breeds", href: "/cat-breeds", current: false },
-    // { name: "Your Cats", href: "/cats", current: false },
-    // { name: "", href: "#", current: false },
+    { name: "Home", href: "/" },
+    { name: "Breeds", href: "/cat-breeds" },
   ];
   const navigate = useNavigate();
   const logout = () => {
@@ -54,21 +52,18 @@ export function NavigationBar() {
               <h1 className="font-medium text-2xl">Cat Adoption</h1>
             </div>
             <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
+              <div className="flex self-center ml-5 space-x-4 gap-6">
                 {navigation.map((item) => (
-                  <a
+                  <NavLink
                     key={item.name}
-                    href={item.href}
-                    aria-current={item.current ? "page" : undefined}
-                    className={classNames(
-                      item.current
-                        ? " text-light-third text-lg"
-                        : "text-light-fourth  hover:text-light-third",
-                      "rounded-md px-3 py-2 text-lg font-medium"
-                    )}
+                    to={item.href}
+                    className={({ isActive }) =>
+                      (isActive ? "text-light-third " : "text-light-fourth ") +
+                      "text-xl font-semibold  transition duration-300 ease-in-out hover:text-sub "
+                    }
                   >
                     {item.name}
-                  </a>
+                  </NavLink>
                 ))}
               </div>
             </div>

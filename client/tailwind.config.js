@@ -12,11 +12,6 @@ export default {
           third: "#4F709C",
           fourth: "#213555",
         },
-        dark: {
-          first: "#4B5563",
-          second: "#879E8D",
-          third: "#B5C0D0",
-        },
       },
     },
   },
