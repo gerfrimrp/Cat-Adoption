@@ -320,7 +320,7 @@ Response (_500 - Internal Server Error_)
 }
 ```
 
-### 3. PATCH /cats/:postId
+### 3. PATCH /cats/:id
 
 Request:
 
@@ -379,7 +379,7 @@ Response (_500 - Internal Server Error_)
 }
 ```
 
-### 4. DELETE /cats/:postId
+### 4. DELETE /cats/:id
 
 Request:
 
