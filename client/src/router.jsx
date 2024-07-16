@@ -7,6 +7,7 @@ import Breeds from "./pages/Breeds";
 import CatForm from "./pages/CatForm";
 import UserCats from "./pages/UserCats";
 import BreedDetail from "./pages/BreedDetail";
+import Chat from "./pages/Chat";
 
 const isLoggedIn = () => {
   const token = localStorage.getItem("token");
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
       { path: "/cats", element: <UserCats />, loader: isNotLoggedIn },
       { path: "/create", element: <CatForm />, loader: isNotLoggedIn },
       { path: "/cat-breeds", element: <Breeds />, loader: isNotLoggedIn },
+      { path: "/chat", element: <Chat />, loader: isNotLoggedIn },
       {
         path: "/cat-breeds/:id",
         element: <BreedDetail />,
