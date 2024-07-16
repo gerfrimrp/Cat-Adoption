@@ -19,6 +19,8 @@ export function NavigationBar() {
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Breeds", href: "/cat-breeds" },
+    // Diisi dengan href page mail/chat 
+    // { name: "Mail", href: "/cat-breeds" },
   ];
   const navigate = useNavigate();
   const logout = () => {
@@ -78,46 +80,77 @@ export function NavigationBar() {
                 Login
               </Link>
             ) : (
-              <Menu as="div" className="relative ml-3">
-                <div>
-                  <MenuButton className="relative border-none flex text-sm ">
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">Open user menu</span>
-                    <svg
-                      className="h-8 w-8"
-                      fill="#213555"
-                      width="800px"
-                      height="800px"
-                      viewBox="0 0 32 32"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M16 15.503A5.041 5.041 0 1 0 16 5.42a5.041 5.041 0 0 0 0 10.083zm0 2.215c-6.703 0-11 3.699-11 5.5v3.363h22v-3.363c0-2.178-4.068-5.5-11-5.5z" />
-                    </svg>
-                  </MenuButton>
-                </div>
-                <MenuItems
-                  transition
-                  className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-light-first py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                >
-                  <MenuItem>
-                    <Link
-                      to={"/cats"}
-                      className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third"
-                    >
-                      Your Cats
-                    </Link>
-                  </MenuItem>
+              <div className="flex items-center space-x-4">
+                {/* Menambahkan icon mail untuk chat */}
+                {/* Nanti diganti dengan link chat*/}
+                <Link to={"/chat"}
+                  className="relative border-none flex text-sm">
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">Chat</span>
+                  <svg
+                    className="h-8 w-8 "
+                    fill="#213555"
+                    width="800px"
+                    height="800px"
+                    viewBox="0 0 512 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g>
+                      <g>
+                        <path d="M496.327,127.091l-15.673,9.613L281.83,258.623c-7.983,4.859-16.917,7.293-25.84,7.293s-17.826-2.424-25.778-7.262
+			l-0.136-0.084L31.347,134.771l-15.673-9.759L0,115.242v302.717h512V117.488L496.327,127.091z"/>
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path d="M25.245,94.041l25.161,15.673l25.161,15.673l171.008,106.527c5.841,3.521,13.082,3.511,18.913-0.042l173.652-106.486
+			l25.558-15.673l25.558-15.673H25.245z"/>
+                      </g>
+                    </g>
+                  </svg>
+                </Link>
+                <Menu as="div" className="relative ml-3">
+                  <div>
+                    <MenuButton className="relative border-none flex text-sm ">
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">Open user menu</span>
+                      <svg
+                        className="h-8 w-8"
+                        fill="#213555"
+                        width="800px"
+                        height="800px"
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M16 15.503A5.041 5.041 0 1 0 16 5.42a5.041 5.041 0 0 0 0 10.083zm0 2.215c-6.703 0-11 3.699-11 5.5v3.363h22v-3.363c0-2.178-4.068-5.5-11-5.5z" />
+                      </svg>
+                    </MenuButton>
+                  </div>
+                  <MenuItems
+                    transition
+                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-light-first py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                  >
+                    <MenuItem>
+                      <Link
+                        to={"/cats"}
+                        className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third"
+                      >
+                        Your Cats
+                      </Link>
+                    </MenuItem>
 
-                  <MenuItem>
-                    <a
-                      className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third"
-                      onClick={logout}
-                    >
-                      Sign out
-                    </a>
-                  </MenuItem>
-                </MenuItems>
-              </Menu>
+                    <MenuItem>
+                      <a
+                        className="block px-4 py-2 text-sm text-light-fourth font-medium  data-[focus]:text-light-third"
+                        onClick={logout}
+                      >
+                        Sign out
+                      </a>
+                    </MenuItem>
+                  </MenuItems>
+                </Menu>
+              </div>
+
             )}
           </div>
         </div>
