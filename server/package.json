@@ -4,6 +4,7 @@
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.2.0",
     "cors": "^2.8.5",
+    "emoji-picker-react": "^4.11.1",
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
     "google-auth-library": "^9.11.0",
