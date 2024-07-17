@@ -1,10 +1,11 @@
+// socket.js
+
 const app = require("./app");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
-// const { authentication, authSocket } = require("./middlewares/authentication");
-const server = createServer(app);
 const { ChatMessage } = require("./models");
 
+const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "*",
