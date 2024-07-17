@@ -1,50 +1,30 @@
+// socket.js
+
 const app = require("./app");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
-// const { authentication, authSocket } = require("./middlewares/authentication");
-const server = createServer(app);
 const { ChatMessage } = require("./models");
 
+const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "*",
   },
 });
 
-const messages = [
-  {
-    message: "hello mba yolanda",
-    user: "system",
-    createdAt: new Date(),
-  },
-];
-
-// const userSocketMap = new Map();
-
-// io.use(authSocket);
-
 io.on("connection", (socket) => {
-  const UserId = socket.id;
-  console.log(`${UserId} connected`);
+  console.log(`${socket.id} connected`);
 
-  // userSocketMap.set(userId, socket.id);
-
-  // socket.on("ping", (message) => {
-  //   console.log({ message }, "dari client");
-  // });
-
-  socket.on("join-chat", (AuthorId) => {
+  socket.on("join-chat", (data) => {
+    const { AuthorId } = data;
     socket.join("test");
-    console.log("joined a chat " + AuthorId);
-  });
-  socket.on("leave-chat", (chat) => {
-    socket.leave(chat);
-    console.log("leave chat " + chat);
+    console.log(`User ${AuthorId} joined chat`);
   });
 
   socket.on("message:create", async ({ message, chat }) => {
-    console.log({ message });
-    io.to(chat).emit("message: delivered", { message });
+    console.log("Message received:", message);
+    io.to(chat).emit("message:delivered", message); // Emitting the message to "test" room
+    // You can uncomment below to save messages to database if needed
     // try {
     //   await ChatMessage.create({
     //     message,
@@ -56,8 +36,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log(` disconnected`);
-    // userSocketMap.delete(UserId);
+    console.log(`${socket.id} disconnected`);
   });
 });
 
