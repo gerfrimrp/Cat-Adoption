@@ -121,7 +121,7 @@ export default function Chat() {
 
             </div>
           </div>
-          <div className="emoji">
+          <div className="fa-solid fa-face-grin-stars">
           <img
             src="./emoji.png"
             alt=""

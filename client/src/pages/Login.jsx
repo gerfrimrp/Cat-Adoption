@@ -22,6 +22,7 @@ export default function Login() {
           });
           console.log(data);
           localStorage.setItem("token", data.access_token);
+          // localStorage.setItem("user", data.access_token);
           navigate("/");
         } catch (err) {
           console.error(err);
