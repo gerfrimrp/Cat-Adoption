@@ -1,58 +1,26 @@
-const app = require("./app");
-const { Server } = require("socket.io");
-const { createServer } = require("http");
-const server = createServer(app);
+const { io } = require('./bin/www');
+const { Message } = require('./models'); 
 
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-  },
-});
+const messages = [];
 
-const messages = [
-  {
-    message: "hello mba yolanda",
-    user: "system",
-    createdAt: new Date(),
-  },
-];
+io.on('connection', (socket) => {
+  console.log(`Socket ${socket.id} connected`);
 
-const userSocketMap = new Map();
+  socket.emit('messages', messages);
 
-io.on("connection", (socket) => {
-  console.log(`${socket.id} connected`);
+  socket.on('message', async (message) => {
+    try {
+  
+      const newMessage = await Message.create(message);
 
-  const userId = socket.handshake.query.userId;
-  userSocketMap.set(userId, socket.id);
 
-  socket.on("ping", (message) => {
-    console.log({ message }, "dari client");
+      io.emit('message', newMessage);
+    } catch (error) {
+      console.error('Error saving message:', error.message);
+    }
   });
 
-  socket.on("hello", (message) => {
-    console.log({ message }, "dari pong");
-    socket.emit("hello-from-server", "from server " + message);
-  });
-
-  socket.on("messages", (callback) => {
-    callback(messages);
-  });
-
-  socket.on("message:create", async ({ message, user }) => {
-    const newMessage = {
-      message,
-      user,
-      createdAt: new Date(),
-    };
-
-    messages.push(newMessage);
-    io.emit("messages:broadcast", messages);
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`${socket.id} disconnected`);
-    userSocketMap.delete(userId);
+  socket.on('disconnect', () => {
+    console.log(`Socket ${socket.id} disconnected`);
   });
 });
-
-module.exports = io;
