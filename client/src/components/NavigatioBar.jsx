@@ -82,7 +82,6 @@ export function NavigationBar() {
             ) : (
               <div className="flex items-center space-x-4">
                 {/* Menambahkan icon mail untuk chat */}
-                {/* Nanti diganti dengan link chat*/}
                 <Link to={"/chat"}
                   className="relative border-none flex text-sm">
                   <span className="absolute -inset-1.5" />
