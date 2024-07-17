@@ -1,7 +1,9 @@
 const app = require("./app");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
+// const { authentication, authSocket } = require("./middlewares/authentication");
 const server = createServer(app);
+const { ChatMessage } = require("./models");
 
 const io = new Server(server, {
   cors: {
@@ -17,42 +19,46 @@ const messages = [
   },
 ];
 
-const userSocketMap = new Map();
+// const userSocketMap = new Map();
+
+// io.use(authSocket);
 
 io.on("connection", (socket) => {
-  console.log(`${socket.id} connected`);
+  const UserId = socket.id;
+  console.log(`${UserId} connected`);
 
-  const userId = socket.handshake.query.userId;
-  userSocketMap.set(userId, socket.id);
+  // userSocketMap.set(userId, socket.id);
 
-  socket.on("ping", (message) => {
-    console.log({ message }, "dari client");
+  // socket.on("ping", (message) => {
+  //   console.log({ message }, "dari client");
+  // });
+
+  socket.on("join-chat", (AuthorId) => {
+    socket.join("test");
+    console.log("joined a chat " + AuthorId);
+  });
+  socket.on("leave-chat", (chat) => {
+    socket.leave(chat);
+    console.log("leave chat " + chat);
   });
 
-  socket.on("hello", (message) => {
-    console.log({ message }, "dari pong");
-    socket.emit("hello-from-server", "from server " + message);
-  });
-
-  socket.on("messages", (callback) => {
-    callback(messages);
-  });
-
-  socket.on("message:create", async ({ message, user }) => {
-    const newMessage = {
-      message,
-      user,
-      createdAt: new Date(),
-    };
-
-    messages.push(newMessage);
-    io.emit("messages:broadcast", messages);
+  socket.on("message:create", async ({ message, chat }) => {
+    console.log({ message });
+    io.to(chat).emit("message: delivered", { message });
+    // try {
+    //   await ChatMessage.create({
+    //     message,
+    //     chat,
+    //   });
+    // } catch (err) {
+    //   console.error(err);
+    // }
   });
 
   socket.on("disconnect", () => {
-    console.log(`${socket.id} disconnected`);
-    userSocketMap.delete(userId);
+    console.log(` disconnected`);
+    // userSocketMap.delete(UserId);
   });
 });
 
-module.exports = io;
+module.exports = { io, server };

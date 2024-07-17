@@ -35,7 +35,8 @@ export const router = createBrowserRouter([
       { path: "/cats", element: <UserCats />, loader: isNotLoggedIn },
       { path: "/create", element: <CatForm />, loader: isNotLoggedIn },
       { path: "/cat-breeds", element: <Breeds />, loader: isNotLoggedIn },
-      { path: "/chat", element: <Chat />, loader: isNotLoggedIn },
+      { path: "/chat/", element: <Chat />, loader: isNotLoggedIn },
+      { path: "/chat/:AuthorId", element: <Chat />, loader: isNotLoggedIn },
       {
         path: "/cat-breeds/:id",
         element: <BreedDetail />,

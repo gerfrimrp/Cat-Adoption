@@ -1,8 +1,9 @@
-const io = require("../socket");
+const { io, server } = require("../socket");
 const port = process.env.PORT || 3000;
+// const app = require("../app");
 
-io.listen(3000);
+// io.listen(port);
 
-// server.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`);
-// });
+server.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
