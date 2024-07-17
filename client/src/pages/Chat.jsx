@@ -1,8 +1,11 @@
 import { useState } from "react";
-
+import EmojiPicker from 'emoji-picker-react';
 export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+
+  const [open, setOpen] = useState(false);
+
 
   const sendMessage = () => {
     if (newMessage.trim() === "") return;
@@ -19,6 +22,11 @@ export default function Chat() {
 
   const handleInputChange = (e) => {
     setNewMessage(e.target.value);
+  };
+
+  const handleEmoji = (e) => {
+    setNewMessage((prev) => prev + e.emoji);
+    setOpen(false);
   };
 
   return (
@@ -110,8 +118,19 @@ export default function Chat() {
                   className="w-8 h-8 rounded-full"
                 />
               </div>
+
             </div>
           </div>
+          <div className="emoji">
+          <img
+            src="./emoji.png"
+            alt=""
+            onClick={() => setOpen((prev) => !prev)}
+          />
+          <div className="fa-solid fa-face-grin-stars">
+            <EmojiPicker open={open} onEmojiClick={handleEmoji} />
+          </div>
+        </div>
           {/* Chat Input */}
           <footer className="bg-white border-t border-gray-300 p-4 absolute bottom-0 w-3/4">
             <div className="flex items-center">
