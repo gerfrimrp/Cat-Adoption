@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card } from "../components/Card";
 import { useEffect } from "react";
 import axios from "../utilities/axios";
 import { useSelector, useDispatch } from "react-redux";
 import { setCats, setLoading } from "../features/cats/catSlice";
 import Swal from "sweetalert2";
+import { socket } from "../socket";
 
 export default function Home() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cats = useSelector((state) => state.cats.cats);
 
@@ -16,6 +18,7 @@ export default function Home() {
         dispatch(setLoading(true));
         const { data } = await axios.get("/pub/cats");
         dispatch(setCats(data.cats));
+        console.log(data.cats);
         dispatch(setLoading(false));
       } catch (err) {
         console.error(err);
@@ -29,6 +32,11 @@ export default function Home() {
     fetchUserCats();
   }, [dispatch]);
 
+  const handleChat = (userId) => {
+    socket.emit("join-chat", userId);
+    navigate("/chat/" + userId);
+  };
+
   return (
     <div className="m-10 lg:my-16 xl:mx-28 gap-8 sm:grid-cols-2 sm:grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
       {cats.map((cat, index) => {
@@ -36,12 +44,14 @@ export default function Home() {
           <Card
             key={index}
             username={cat.User?.userName}
+            userId={cat.UserId}
             images={cat.CatImages}
             name={cat.name}
             age={cat.age}
             breed={cat.breed}
             description={cat.description}
             contact={cat.contact}
+            handleChat={handleChat}
           />
         );
       })}

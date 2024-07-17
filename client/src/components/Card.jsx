@@ -9,6 +9,8 @@ export function Card({
   breed,
   description,
   contact,
+  handleChat,
+  userId,
 }) {
   return (
     <section className="mb-8 sm:mb-0 px-3 py-2 max-w rounded-lg shadow-xl bg-light-first sm:col-span-1">
@@ -52,6 +54,7 @@ export function Card({
       <p className="my-4 font-bold text-sm text-gray-500 overflow-hidden text-left">
         contact: {contact}
       </p>
+      <button onClick={() => handleChat(userId)}> chat,{userId}</button>
     </section>
   );
 }

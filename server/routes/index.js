@@ -2,7 +2,7 @@ const router = require("express").Router();
 const PubController = require("../controllers/PubController");
 const catsRouter = require("./cats");
 const UserController = require("../controllers/UserController");
-const authentication = require("../middlewares/authentication");
+const { authentication } = require("../middlewares/authentication");
 const breedsRouter = require("./breeds");
 // const OpenAIController = require("../controllers/OpenAIController");
 
