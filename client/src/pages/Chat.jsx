@@ -8,31 +8,29 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [open, setOpen] = useState(false);
-  // console.log(messages)
 
   useEffect(() => {
     socket.emit("join-chat", { AuthorId });
 
-    socket.on("message: delivered", (message) => {
-      setMessages((prev) => [...prev, message]);
+    socket.on("message:delivered", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     return () => {
-      socket.off("message: delivered");
+      socket.off("message:delivered");
     };
   }, [AuthorId]);
 
   const handleEmoji = (e) => {
-    setText((prev) => prev + e.emoji);
+    setText((prevText) => prevText + e.emoji);
     setOpen(false);
   };
 
   const sendMessage = () => {
     if (text.trim() === "") return;
     let SenderId = localStorage.getItem("token").split(".");
-    SenderId = JSON.parse(atob(SenderId[1]));
-    SenderId = SenderId.id;
-    console.log(SenderId);
+    SenderId = JSON.parse(atob(SenderId[1])).id;
+
     const message = {
       text: text,
       sender: SenderId,
@@ -40,23 +38,17 @@ export default function Chat() {
       timestamp: new Date().getTime(),
     };
 
-    console.log(text);
-    setMessages((prev) => [...prev, message]);
+    setMessages((prevMessages) => [...prevMessages, message]);
     socket.emit("message:create", { message, chat: "test" });
-    console.log(messages);
-    // setText("");
+    setText("");
   };
 
   return (
     <>
-      {/* component */}
       <div className="flex h-screen overflow-hidden pt-9">
-        {/* Sidebar */}
         <div className="w-1/4 bg-white border-r border-gray-300">
-          {/* Sidebar Header */}
-          <header className=" border-gray-300 flex justify-between items-center text-white">
+          <header className="border-gray-300 flex justify-between items-center text-white">
             <div className="relative">
-              {/* Menu Dropdown */}
               <div
                 id="menuDropdown"
                 className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg hidden"
@@ -78,12 +70,10 @@ export default function Chat() {
                       Option 2
                     </a>
                   </li>
-                  {/* Add more menu options here */}
                 </ul>
               </div>
             </div>
           </header>
-          {/* Contact List */}
           <div className="overflow-y-auto h-screen p-3 mb-9 pb-20">
             <div className="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
               <div className="w-12 h-12 bg-gray-300 rounded-full mr-3">
@@ -98,111 +88,49 @@ export default function Chat() {
                 <p className="text-gray-600">Hoorayy!!</p>
               </div>
             </div>
-
-            <div className="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-              <div className="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                <img
-                  src="https://static.republika.co.id/uploads/images/inpicture_slide/kucing-bernama_230808173625-261.jpeg"
-                  alt="User Avatar"
-                  className="w-12 h-12 rounded-full"
-                />
-              </div>
-              <div className="flex-1">
-                <h2 className="text-lg font-semibold">Alice</h2>
-                <p className="text-gray-600">Hoorayy!!</p>
-              </div>
-            </div>
-
-            <div className="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-              <div className="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                <img
-                  src="https://static.republika.co.id/uploads/images/inpicture_slide/kucing-bernama_230808173625-261.jpeg"
-                  alt="User Avatar"
-                  className="w-12 h-12 rounded-full"
-                />
-              </div>
-              <div className="flex-1">
-                <h2 className="text-lg font-semibold">Alice</h2>
-                <p className="text-gray-600">Hoorayy!!</p>
-              </div>
-            </div>
-
-            <div className="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-              <div className="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                <img
-                  src="https://static.republika.co.id/uploads/images/inpicture_slide/kucing-bernama_230808173625-261.jpeg"
-                  alt="User Avatar"
-                  className="w-12 h-12 rounded-full"
-                />
-              </div>
-              <div className="flex-1">
-                <h2 className="text-lg font-semibold">Alice</h2>
-                <p className="text-gray-600">Hoorayy!!</p>
-              </div>
-            </div>
-
-            <div className="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-              <div className="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                <img
-                  src="https://static.republika.co.id/uploads/images/inpicture_slide/kucing-bernama_230808173625-261.jpeg"
-                  alt="User Avatar"
-                  className="w-12 h-12 rounded-full"
-                />
-              </div>
-              <div className="flex-1">
-                <h2 className="text-lg font-semibold">Alice</h2>
-                <p className="text-gray-600">Hoorayy!!</p>
-              </div>
-            </div>
+            {/* More contact list items */}
           </div>
         </div>
-        {/* Main Chat Area */}
         <div className="flex-1">
-          {/* Chat Header */}
           <header className="bg-white p-4 text-gray-700">
             <h1 className="text-2xl font-semibold">Alice</h1>
           </header>
-          {/* Chat Messages */}
           <div className="h-screen overflow-y-auto p-4 pb-36">
-            {messages.map((message) => {
-              if (message.sender === "me") {
-                return (
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${message.sender === "me" ? "justify-end" : ""} mb-4`}
+              >
+                {message.sender === "me" ? (
                   <>
-                    <div className="flex justify-end mb-4">
-                      <div className="flex max-w-96 text-white bg-light-third text-light-bg-light-third rounded-lg p-3 gap-3">
-                        <p>{message.text}</p>
-                      </div>
-                      <div className="w-9 h-9 rounded-full flex items-center justify-center ml-2">
-                        <img
-                          src="https://static.republika.co.id/uploads/images/inpicture_slide/kucing-bernama_230808173625-261.jpeg"
-                          alt="My Avatar"
-                          className="w-8 h-8 rounded-full"
-                        />
-                      </div>
+                    <div className="flex max-w-96 text-white bg-light-third text-light-bg-light-third rounded-lg p-3 gap-3">
+                      <p>{message.text}</p>
+                    </div>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center ml-2">
+                      <img
+                        src="https://static.republika.co.id/uploads/images/inpicture_slide/kucing-bernama_230808173625-261.jpeg"
+                        alt="My Avatar"
+                        className="w-8 h-8 rounded-full"
+                      />
                     </div>
                   </>
-                );
-              } else {
-                return (
+                ) : (
                   <>
-                    <div className="flex mb-4">
-                      <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
-                        <img
-                          src="https://static.republika.co.id/uploads/images/inpicture_slide/kucing-bernama_230808173625-261.jpeg"
-                          alt="User Avatar"
-                          className="w-8 h-8 rounded-full"
-                        />
-                      </div>
-                      <div className="flex max-w-96 bg-light-first rounded-lg p-3 gap-3">
-                        <p className="text-gray-700">{message.text}</p>
-                      </div>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center mr-2">
+                      <img
+                        src="https://static.republika.co.id/uploads/images/inpicture_slide/kucing-bernama_230808173625-261.jpeg"
+                        alt="User Avatar"
+                        className="w-8 h-8 rounded-full"
+                      />
+                    </div>
+                    <div className="flex max-w-96 bg-light-first rounded-lg p-3 gap-3">
+                      <p className="text-gray-700">{message.text}</p>
                     </div>
                   </>
-                );
-              }
-            })}
+                )}
+              </div>
+            ))}
           </div>
-          {/* Chat Input */}
           <footer className="bg-white border-t border-gray-300 p-4 absolute bottom-0 w-3/4">
             <div className="flex items-center">
               <button
