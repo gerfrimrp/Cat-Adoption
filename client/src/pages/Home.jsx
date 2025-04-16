@@ -12,23 +12,24 @@ export default function Home() {
   const dispatch = useDispatch();
   const cats = useSelector((state) => state.cats.cats);
 
+  const fetchUserCats = async () => {
+    try {
+      dispatch(setLoading(true));
+      const { data } = await axios.get("/pub/cats");
+      dispatch(setCats(data.cats));
+      console.log(data.cats);
+      dispatch(setLoading(false));
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: err.response?.data.message || err.message,
+      });
+      dispatch(setLoading(false));
+    }
+  };
+
   useEffect(() => {
-    const fetchUserCats = async () => {
-      try {
-        dispatch(setLoading(true));
-        const { data } = await axios.get("/pub/cats");
-        dispatch(setCats(data.cats));
-        console.log(data.cats);
-        dispatch(setLoading(false));
-      } catch (err) {
-        console.error(err);
-        Swal.fire({
-          icon: "error",
-          title: err.response?.data.message || err.message,
-        });
-        dispatch(setLoading(false));
-      }
-    };
     fetchUserCats();
   }, [dispatch]);
 
