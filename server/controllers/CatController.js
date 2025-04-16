@@ -6,7 +6,7 @@ module.exports = class CatController {
       const UserId = req.user.id;
       const cats = await Cat.findAll({ where: { UserId }, include: CatImage });
       if (!cats) throw { name: "NotFound", message: "Cat Not found" };
-
+      console.log(cats)
       res.status(200).json({ cats });
     } catch (err) {
       next(err);
