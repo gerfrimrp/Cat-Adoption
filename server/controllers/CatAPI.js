@@ -10,6 +10,7 @@ module.exports = class CatAPI {
           },
         },
       });
+
       res.status(200).json(data);
     } catch (err) {
       next(err);

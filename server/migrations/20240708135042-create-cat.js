@@ -31,7 +31,7 @@ module.exports = {
         default: "Available",
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       contact: {

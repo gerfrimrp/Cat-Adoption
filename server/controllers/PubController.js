@@ -16,7 +16,7 @@ module.exports = class PubController {
           },
         ],
       });
-
+      console.log(cats, '<<<<');
       res.status(200).json({ cats });
     } catch (err) {
       next(err);
