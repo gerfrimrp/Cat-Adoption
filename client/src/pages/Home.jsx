@@ -37,7 +37,7 @@ export default function Home() {
     socket.emit("join-chat", userId);
     navigate("/chat/" + userId);
   };
-
+  console.log(cats);
   return (
     <div className="m-10 lg:my-16 xl:mx-28 gap-8 sm:grid-cols-2 sm:grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
       {cats.map((cat, index) => {
